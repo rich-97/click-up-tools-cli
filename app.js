@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
+require("dotenv").config();
+
 const axios = require("axios");
 const moment = require("moment");
-require("dotenv").config();
 
 const CLICKUP_API_URL =
   "https://api.clickup.com/api/v2/team/{team_id}/time_entries";
-const API_KEY = process.env.CLICKUP_API_KEY; // Tu API key de ClickUp
+const API_KEY = process.env.CLICKUP_API_KEY;
+const TEAM_ID = process.env.CLICKUP_TEAM_ID;
 
-const userEmail = process.argv[2]; // Email del usuario pasado como argumento de línea de comandos
-const teamId = "3045042"; // Reemplaza con el ID de tu equipo
+const userEmail = process.argv[2];
 
 if (!userEmail) {
   console.error("Please provide a user email as an argument.");
@@ -19,7 +20,7 @@ if (!userEmail) {
 async function getHoursForUser(email) {
   try {
     const response = await axios.get(
-      CLICKUP_API_URL.replace("{team_id}", teamId),
+      CLICKUP_API_URL.replace("{team_id}", TEAM_ID),
       {
         headers: {
           Authorization: API_KEY,
